@@ -1,21 +1,21 @@
 CC=arm-elf-gcc
 LD=arm-elf-ld
 OBJCOPY=arm-elf-objcopy
+
 CFLAGS= -O2 -g
 ASFLAGS= -O2 -g
-LDFLAGS=-Thelloworld.lds -Ttext 00000000
+LDFLAGS=-Tleeos.lds -Ttext 30000000 
 
-OBJS=start.o helloworld.o
+OBJS=init.o start.o boot.o abnormal.o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 .s.o:
 	$(CC) $(ASFLAGS) -c $<
 
-helloworld:$(OBJS)
+leeos:$(OBJS)
 	$(CC) -static -nostartfiles -nostdlib $(LDFLAGS) $? -o $@ -lgcc
-	$(OBJCOPY) -O binary $@ helloworld.bin
+	$(OBJCOPY) -O binary $@ leeos.bin
+
 clean:
-	rm *.o helloworld helloworld.bin -f
-
-
+	rm *.o leeos leeos.bin -f
