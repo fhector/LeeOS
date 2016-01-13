@@ -26,9 +26,9 @@ static init_func init[]=
     0,
 };
 
+
 void plat_boot(void)
 {
-    extern void test_vparameter(int,...);
     int i;
     for(i=0; init[i]; i++)
     {
@@ -37,7 +37,6 @@ void plat_boot(void)
     init_sys_mmu();
     start_mmu();
     test_mmu();
-    test_vparameter(3,9,8,7);
-    test_vparameter(2,6,5);
+    test_printk();
     while(1);
 }
