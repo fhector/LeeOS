@@ -11,6 +11,15 @@ void helloworld(void)
     };
 }
 
+void test_mmu(void)
+{
+    const char *p="test_mmu\n";
+    while(*p)
+    {
+        *(volatile unsigned int *)0xd0000020=*p++;
+    };
+}
+
 static init_func init[]=
 {
     helloworld,
@@ -24,5 +33,8 @@ void plat_boot(void)
     {
         init[i]();
     }
+    init_sys_mmu();
+    start_mmu();
+    test_mmu();
     while(1);
 }
