@@ -42,17 +42,22 @@ __vector_reserved:
 	nop
 __vector_irq:
 	sub r14,r14,#4
-	stmfd r13!,{r14}
+	str r14,[r13,#-0x4]
 	mrs r14,spsr
-	stmfd r13!,{r14}
+	str r14,[r13,#-0x8]
+	str r0,[r13,#-0xc]
+	mov r0,r13
 	CHANGE_TO_SVC
-	stmfd r13!,{r0-r3}
+	str r14,[r13,#-0x8]!
+	ldr r14,[r0,#-0x4]
+	str r14,[r13,#-0x4]
+	ldr r14,[r0,#-0x8]
+	ldr r0,[r0,#-0xc]
+	stmdb r13!,{r0-r3,r14}
 	bl common_irq_handler
-	ldmfd r13!,{r0-r3}
-	CHANGE_TO_IRQ
-	ldmfd r13!,{r14}
+	ldmia r13!,{r0-r3,r14}
 	msr spsr,r14
-	ldmfd r13!,{pc}^
+	ldmfd r13!,{r14,pc}^
 
 
 __vector_fiq:

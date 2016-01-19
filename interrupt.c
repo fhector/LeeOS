@@ -37,5 +37,4 @@ void common_irq_handler(void)
     *(volatile unsigned int *)INTPND|=tmp;
     enable_irq();
     printk("interrupt occured\n");
-    disable_irq();
 }
