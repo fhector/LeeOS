@@ -60,6 +60,18 @@ void plat_boot(void)
     start_mmu();
     test_mmu();
     test_printk();
-    timer_init();
-    while(1);
+//	timer_init();
+	init_page_map();
+	char *p1,*p2,*p3,*p4;
+	p1=(char *)get_free_pages(0,6);
+	printk("the return address of get_free_pages %x\n",p1);
+	p2=(char *)get_free_pages(0,6);
+	printk("the return address of get_free_pages %x\n",p2);
+	put_free_pages(p2,6);
+	put_free_pages(p1,6);
+	p3=(char *)get_free_pages(0,7);
+	printk("the return address of get_free_pages %x\n",p3);
+	p4=(char *)get_free_pages(0,7);
+	printk("the return address of get_free_pages %x\n",p4);
+	while(1);
 }
