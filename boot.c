@@ -49,6 +49,7 @@ void timer_init(void)
 
 
 
+void *kmalloc(unsigned int size);
 void plat_boot(void)
 {
     int i;
@@ -60,18 +61,19 @@ void plat_boot(void)
     start_mmu();
     test_mmu();
     test_printk();
-//	timer_init();
-	init_page_map();
-	char *p1,*p2,*p3,*p4;
-	p1=(char *)get_free_pages(0,6);
-	printk("the return address of get_free_pages %x\n",p1);
-	p2=(char *)get_free_pages(0,6);
-	printk("the return address of get_free_pages %x\n",p2);
-	put_free_pages(p2,6);
-	put_free_pages(p1,6);
-	p3=(char *)get_free_pages(0,7);
-	printk("the return address of get_free_pages %x\n",p3);
-	p4=(char *)get_free_pages(0,7);
-	printk("the return address of get_free_pages %x\n",p4);
-	while(1);
+//  timer_init();
+    init_page_map();
+    kmalloc_init();
+    char *p1,*p2,*p3,*p4;
+    p1=kmalloc(127);
+    printk("the first alloced address is %x\n",p1);
+    p2=kmalloc(124);
+    printk("the second alloced address is %x\n",p2);
+    kfree(p1);
+    kfree(p2);
+    p3=kmalloc(119);
+    printk("the third alloced address is %x\n",p3);
+    p4=kmalloc(512);
+    printk("the forth alloced address is %x\n",p4);
+    while(1);
 }
